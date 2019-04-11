@@ -287,6 +287,34 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
     }
 
     /**
+     * 层次遍历, 分层打印
+     */
+    public void levelPrint() {
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.offer(this);
+        BinaryTreeNode current;
+        int currentNum = 1, nextNum = 0;
+        System.out.println("分层打印树: ");
+        while (!queue.isEmpty()) {
+            current = queue.poll();
+            System.out.print(current.val.toString());
+            if (current.left != null) {
+                queue.offer(current.left);
+                nextNum++;
+            }
+            if (current.right != null) {
+                queue.offer(current.right);
+                nextNum++;
+            }
+            if (--currentNum == 0) {
+                currentNum = nextNum;
+                nextNum = 0;
+                System.out.print("\n");
+            }
+        }
+    }
+
+    /**
      * 非递归前序遍历
      * 使用后进先出的堆栈
      */

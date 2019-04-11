@@ -38,6 +38,7 @@ public class MyClass {
 
         System.out.println("\n");
         BinaryTreeNode<Integer> node = rebuildTree(new Integer[]{1, 2, 4, 5, 7, 8, 3, 6}, new Integer[]{4, 2, 7, 5, 8, 1, 3, 6});
+        node.levelPrint();
         System.out.println(normalTreeOperation(node));
 
         System.out.println("\n");
@@ -78,8 +79,8 @@ public class MyClass {
         System.out.println("\n");
         dataType();
 
-        System.out.println("\n");
-        print1ToMaxNumberByFullArrange(3);
+        // System.out.println("\n");
+        // print1ToMaxNumberByFullArrange(3);
 
         System.out.println("\n");
         LinkedNode root = new LinkedNode(1);
