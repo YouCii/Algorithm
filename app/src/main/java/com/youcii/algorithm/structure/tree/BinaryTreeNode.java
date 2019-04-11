@@ -297,7 +297,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         System.out.println("分层打印树: ");
         while (!queue.isEmpty()) {
             current = queue.poll();
-            System.out.print(current.val.toString());
+            System.out.print(current.val);
             if (current.left != null) {
                 queue.offer(current.left);
                 nextNum++;
@@ -309,6 +309,42 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
             if (--currentNum == 0) {
                 currentNum = nextNum;
                 nextNum = 0;
+                System.out.print("\n");
+            }
+        }
+    }
+
+    /**
+     * 层次遍历, 分层之字形打印
+     */
+    public void levelZPrint() {
+        Stack<BinaryTreeNode> currentStack = new Stack<>(), nextStack = new Stack<>();
+        currentStack.push(this);
+        BinaryTreeNode current;
+        boolean leftToRight = true;
+        System.out.println("之字形分层打印树: ");
+        while (!currentStack.empty()) {
+            current = currentStack.pop();
+            System.out.print(current.val);
+            if (leftToRight) {
+                if (current.left != null) {
+                    nextStack.push(current.left);
+                }
+                if (current.right != null) {
+                    nextStack.push(current.right);
+                }
+            } else {
+                if (current.right != null) {
+                    nextStack.push(current.right);
+                }
+                if (current.left != null) {
+                    nextStack.push(current.left);
+                }
+            }
+            if (currentStack.empty()) {
+                currentStack = nextStack;
+                nextStack = new Stack<>();
+                leftToRight = !leftToRight;
                 System.out.print("\n");
             }
         }

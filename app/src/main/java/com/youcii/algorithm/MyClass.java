@@ -39,6 +39,7 @@ public class MyClass {
         System.out.println("\n");
         BinaryTreeNode<Integer> node = rebuildTree(new Integer[]{1, 2, 4, 5, 7, 8, 3, 6}, new Integer[]{4, 2, 7, 5, 8, 1, 3, 6});
         node.levelPrint();
+        node.levelZPrint();
         System.out.println(normalTreeOperation(node));
 
         System.out.println("\n");
