@@ -5,6 +5,7 @@ import com.youcii.algorithm.structure.tree.BinaryTreeNode;
 import com.youcii.algorithm.structure.tree.SearchTreeNode;
 import com.youcii.algorithm.structure.tree.TreeNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -136,6 +137,74 @@ public class MyClass {
         int[] pushArray = new int[]{1, 2, 3, 4, 5};
         int[] popArray = new int[]{4, 5, 2, 3, 1};
         System.out.println("两数组是否互为进出栈关系: " + isPopArray(pushArray, popArray));
+
+        System.out.println("\n");
+        int[] postOrderArray = new int[]{7, 4, 6, 5};
+        System.out.println("数组是否是某搜索二叉树的后序遍历序列: " + isPostOrderOfSearchTree(postOrderArray, 0, postOrderArray.length - 1));
+
+        System.out.println("\n");
+        node = rebuildTree(new Integer[]{1, 3, 4, 5, 7, 8, 2, 6}, new Integer[]{4, 3, 7, 5, 8, 1, 2, 6});
+        System.out.print("二叉树中和为某一值的路径: " + findPath(node, 9).toString());
+    }
+
+    /**
+     * 二叉树中和为某一值的路径, 注意: 路径必须是从根到叶, 不能截止到中间
+     * 1.         1
+     * 2.      3      2
+     * 3.   4    5      6
+     * 4.       7 8
+     * <p>
+     * 前序遍历：1  3  4  5  7  8  2  6
+     * 中序遍历：4  3  7  5  8  1  2  6
+     */
+    private static ArrayList<ArrayList<Integer>> findPath(BinaryTreeNode<Integer> root, int target) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        ArrayList<Integer> stack = new ArrayList<>();
+        int currentNum = 0;
+        traverseToCalculate(list, root, target, stack, currentNum);
+        return list;
+    }
+
+    private static void traverseToCalculate(ArrayList<ArrayList<Integer>> list, BinaryTreeNode<Integer> root, int target, ArrayList<Integer> stack, int currentNum) {
+        if (root == null || currentNum > target) {
+            return;
+        }
+        stack.add(root.val);
+        currentNum += root.val;
+        if (currentNum < target) {
+            traverseToCalculate(list, root.left, target, stack, currentNum);
+            traverseToCalculate(list, root.right, target, stack, currentNum);
+        } else if (currentNum == target && root.left == null && root.right == null) {
+            list.add(new ArrayList<>(stack));
+        }
+
+        stack.remove(stack.size() - 1);
+    }
+
+    /**
+     * 数组是否是某搜索二叉树的后序遍历序列
+     * <p>
+     * 思路: 后序遍历最后一位是根节点, 前面分为两部分, 前半部分全部小于根节点, 后半部分全部大于根节点
+     */
+    private static boolean isPostOrderOfSearchTree(int[] array, int begin, int end) {
+        if (array == null || begin > end) {
+            return false;
+        }
+        if (begin == end) {
+            return true;
+        }
+        int divider = begin;
+        for (; divider < end; divider++) {
+            if (array[divider] > array[end]) {
+                break;
+            }
+        }
+        for (int i = divider; i < end; i++) {
+            if (array[i] < array[end]) {
+                return false;
+            }
+        }
+        return isPostOrderOfSearchTree(array, begin, divider - 1) && isPostOrderOfSearchTree(array, divider, end - 1);
     }
 
     /**
