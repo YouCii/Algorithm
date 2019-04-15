@@ -148,6 +148,45 @@ public class MyClass {
     }
 
     /**
+     * 把搜索二叉树转换为有序双向链表, 并返回头节点
+     */
+    private static BinaryTreeNode convertToLink(SearchTreeNode treeNode) {
+        if (treeNode == null) {
+            return null;
+        }
+        return getHeadAndTail(treeNode)[0];
+    }
+
+    /**
+     * 返回的数组第一位是链表头, 第二位是链表尾
+     */
+    private static BinaryTreeNode[] getHeadAndTail(BinaryTreeNode treeNode) {
+        BinaryTreeNode[] headAndTail = new SearchTreeNode[2];
+        if (treeNode.left != null) {
+            BinaryTreeNode[] left = getHeadAndTail(treeNode.left);
+            treeNode.left = left[1];
+            left[1].right = treeNode;
+
+            headAndTail[0] = left[0];
+        }
+        if (treeNode.right != null) {
+            BinaryTreeNode[] right = getHeadAndTail(treeNode.right);
+            treeNode.right = right[0];
+            right[0].left = treeNode;
+
+            headAndTail[1] = right[1];
+        }
+
+        if (headAndTail[0] == null) {
+            headAndTail[0] = treeNode;
+        }
+        if (headAndTail[1] == null) {
+            headAndTail[1] = treeNode;
+        }
+        return headAndTail;
+    }
+
+    /**
      * 二叉树中和为某一值的路径, 注意: 路径必须是从根到叶, 不能截止到中间
      * 1.         1
      * 2.      3      2
