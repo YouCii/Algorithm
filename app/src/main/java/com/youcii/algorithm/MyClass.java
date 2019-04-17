@@ -143,8 +143,61 @@ public class MyClass {
         System.out.println("数组是否是某搜索二叉树的后序遍历序列: " + isPostOrderOfSearchTree(postOrderArray, 0, postOrderArray.length - 1));
 
         System.out.println("\n");
-        node = rebuildTree(new Integer[]{1, 3, 4, 5, 7, 8, 2, 6}, new Integer[]{4, 3, 7, 5, 8, 1, 2, 6});
+        node = rebuildTree(new Integer[]{11, 33, 44, 55, 77, 88, 22, 66}, new Integer[]{44, 33, 77, 55, 88, 11, 22, 66});
         System.out.print("二叉树中和为某一值的路径: " + findPath(node, 9).toString());
+
+        System.out.println("\n");
+        String result = serializeTree(node);
+        System.out.print("序列化二叉树: " + result);
+        System.out.print("\n反序列化为二叉树: " + deserializeToTree(result).preOrderRecursive());
+    }
+
+    /**
+     * 序列化二叉树, 返回12$$12
+     */
+    private static String serializeTree(BinaryTreeNode node) {
+        if (node == null) {
+            return null;
+        }
+        StringBuilder builder = new StringBuilder();
+        serializeCore(node, builder);
+        return builder.toString();
+    }
+
+    private static void serializeCore(BinaryTreeNode node, StringBuilder builder) {
+        if (node == null) {
+            builder.append("$,");
+        } else {
+            builder.append(node.val).append(",");
+            serializeCore(node.left, builder);
+            serializeCore(node.right, builder);
+        }
+    }
+
+    /**
+     * 反序列化
+     * 1.         11
+     * 2.      33      22
+     * 3.   44    55      66
+     * 4.       77 88
+     */
+    private static BinaryTreeNode deserializeToTree(String string) {
+        if (string == null || string.length() < 1) {
+            return null;
+        }
+        int[] index = {0};
+        return deserializeCore(string.split(","), index);
+    }
+
+    private static BinaryTreeNode<Integer> deserializeCore(String[] Strings, int[] index) {
+        if (index[0] >= Strings.length || Strings[index[0]].equals("$")) {
+            index[0]++;
+            return null;
+        }
+        BinaryTreeNode<Integer> header = new BinaryTreeNode<>(Integer.parseInt(Strings[index[0]++]));
+        header.left = deserializeCore(Strings, index);
+        header.right = deserializeCore(Strings, index);
+        return header;
     }
 
     /**
@@ -1048,7 +1101,7 @@ public class MyClass {
         // 前序的第一个点是根节点, 找到中序遍历的该点, 则左边的是左子树, 右边的是右子树;
         for (rootIndex = 0; rootIndex < mid.length; rootIndex++) {
             if (mid[rootIndex].equals(rootValue)) {
-                root = new BinaryTreeNode<>(rootValue, null, null);
+                root = new BinaryTreeNode<>(rootValue);
                 break;
             }
         }

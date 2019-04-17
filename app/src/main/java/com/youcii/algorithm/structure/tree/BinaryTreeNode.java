@@ -33,6 +33,10 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         this.parent = parent;
     }
 
+    public BinaryTreeNode(T val) {
+        this(val, null, null);
+    }
+
     /**
      * 按照层级方向, 第一个左右子节点不全或都没有的节点就是目标节点
      */
@@ -219,7 +223,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
     @Override
     public String preOrderRecursive() {
         StringBuilder builder = new StringBuilder();
-        builder.append(val);
+        builder.append(val).append(",");
         if (left != null) {
             builder.append(left.preOrderRecursive());
         }
@@ -239,7 +243,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         if (left != null) {
             builder.append(left.inOrderRecursive());
         }
-        builder.append(val);
+        builder.append(val).append(",");
         if (right != null) {
             builder.append(right.inOrderRecursive());
         }
@@ -259,7 +263,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         if (right != null) {
             builder.append(right.postOrderRecursive());
         }
-        builder.append(val);
+        builder.append(val).append(",");
         return builder.toString();
     }
 
@@ -275,7 +279,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         while (queue.size() != 0) {
             BinaryTreeNode node = queue.poll();
             assert node != null;
-            builder.append(node.val);
+            builder.append(node.val).append(",");
             if (node.left != null) {
                 queue.offer(node.left);
             }
@@ -297,7 +301,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         System.out.println("分层打印树: ");
         while (!queue.isEmpty()) {
             current = queue.poll();
-            System.out.print(current.val);
+            System.out.print(current.val + ",");
             if (current.left != null) {
                 queue.offer(current.left);
                 nextNum++;
@@ -325,7 +329,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         System.out.println("之字形分层打印树: ");
         while (!currentStack.empty()) {
             current = currentStack.pop();
-            System.out.print(current.val);
+            System.out.print(current.val + ",");
             if (leftToRight) {
                 if (current.left != null) {
                     nextStack.push(current.left);
@@ -364,7 +368,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
 
         while (current != null || stack.size() > 0) {
             while (current != null) {
-                builder.append(current.val);
+                builder.append(current.val).append(",");
                 stack.push(current);
                 current = current.left;
             }
@@ -394,7 +398,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
 
             // 输出最左叶子点
             current = stack.pop();
-            builder.append(current.val);
+            builder.append(current.val).append(",");
 
             // 转向右子树, 下次循环时把他作为根节点, 类似于递归了
             current = current.right;
@@ -424,7 +428,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
 
             // 没有右子节点或者右子节点已经输出过了, 就输出当前节点
             if (current.right == null || current.right == last) {
-                builder.append(current.val);
+                builder.append(current.val).append(",");
                 stack.pop();
                 last = current;
                 current = null;
@@ -448,7 +452,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
         BinaryTreeNode<T> root;
         while (stack.size() > 0) {
             root = stack.pop();
-            builder.append(root.val);   // 第一位直接打印
+            builder.append(root.val).append(",");   // 第一位直接打印
 
             if (root.right != null) {
                 stack.push(root.right); // 第三位先放进去
