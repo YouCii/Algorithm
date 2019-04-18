@@ -7,6 +7,7 @@ import com.youcii.algorithm.structure.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -150,6 +151,43 @@ public class MyClass {
         String result = serializeTree(node);
         System.out.print("序列化二叉树: " + result);
         System.out.print("\n反序列化为二叉树: " + deserializeToTree(result).preOrderRecursive());
+
+        System.out.println("\n");
+        System.out.print("字符串的所有排列: " + getAllPermutation("abdd"));
+    }
+
+    /**
+     * 字符串的所有排列
+     */
+    private static ArrayList<String> getAllPermutation(String str) {
+        ArrayList<String> list = new ArrayList<>();
+        if (str != null && str.length() > 0) {
+            partPermutation(str.toCharArray(), 0, list);
+        }
+        return list;
+    }
+
+    private static void partPermutation(char[] chars, int begin, List<String> list) {
+        if (begin >= chars.length) {
+            return;
+        }
+        if (begin == chars.length - 1) {
+            String string = String.valueOf(chars);
+            if (!list.contains(string)) {
+                list.add(string);
+            }
+            return;
+        }
+        for (int i = begin; i < chars.length; i++) {
+            char cache = chars[begin];
+            chars[begin] = chars[i];
+            chars[i] = cache;
+
+            partPermutation(chars, begin + 1, list);
+
+            chars[i] = chars[begin];
+            chars[begin] = cache;
+        }
     }
 
     /**
