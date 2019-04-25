@@ -154,6 +154,42 @@ public class MyClass {
 
         System.out.println("\n");
         System.out.print("字符串的所有排列: " + getAllPermutation("abdd"));
+
+        System.out.println("\n");
+        System.out.print("数组中出现次数超过一半的数字: " + getMoreThanHalfNum(new int[]{11, 44, 11, 11, 11, 11, 22, 66}));
+    }
+
+    /**
+     * 数组中出现次数超过一半的数字
+     * <p>
+     * 中位数肯定是超过一半的, 去找中位数
+     */
+    private static int getMoreThanHalfNum(int[] numbers) {
+        if (numbers == null || numbers.length < 1) {
+            throw new NullPointerException();
+        }
+        int start = 0, end = numbers.length - 1, middle = numbers.length >> 1;
+        int index = partition(numbers, start, end);
+        while (index != middle) {
+            if (index > middle) {
+                index = partition(numbers, start, end = index - 1);
+            } else {
+                index = partition(numbers, start = index + 1, end);
+            }
+        }
+
+        // 校验该数字出现的次数是否超过一半了
+        int time = 0, result = numbers[middle];
+        for (int number : numbers) {
+            if (number == result) {
+                time++;
+            }
+        }
+        if (time > middle) {
+            return result;
+        } else {
+            throw new NullPointerException();
+        }
     }
 
     /**
