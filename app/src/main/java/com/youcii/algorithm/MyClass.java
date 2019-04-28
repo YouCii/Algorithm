@@ -7,7 +7,8 @@ import com.youcii.algorithm.structure.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -157,6 +158,64 @@ public class MyClass {
 
         System.out.println("\n");
         System.out.print("数组中出现次数超过一半的数字: " + getMoreThanHalfNum(new int[]{11, 44, 11, 11, 11, 11, 22, 66}));
+
+        System.out.println("\n");
+        insertNumFromStream(1);
+        insertNumFromStream(0);
+        insertNumFromStream(-3);
+        insertNumFromStream(1);
+        insertNumFromStream(0);
+        insertNumFromStream(-1);
+        insertNumFromStream(10);
+        insertNumFromStream(0);
+        insertNumFromStream(-1);
+        System.out.print("数据流中的中位数: " + getMiddle());
+    }
+
+    /**
+     * 数据流中的中位数
+     * 需要使用一个数据集合存储, 所以有一个插入方法, 有一个获取中位数的方法
+     * 这里使用两个堆(一个最大堆一个最小堆)分别存储, 分奇偶存储, 保证数目相差不过1
+     */
+    private static PriorityQueue<Integer> min = new PriorityQueue<>();
+    private static PriorityQueue<Integer> max = new PriorityQueue<>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            if (o1 > o2) {
+                return -1;
+            } else if (o1 < o2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    });
+    private static int numCount = 0;
+
+    // 插入最小堆时, 首先把该值插入最大堆, 然后把最大堆里的最大值转移到最小堆
+    private static void insertNumFromStream(int num) {
+        if ((numCount & 1) == 0) {
+            max.offer(num);
+            min.offer(max.poll());
+        } else {
+            min.offer(num);
+            max.offer(min.poll());
+        }
+        numCount++;
+    }
+
+    private static double getMiddle() {
+        if (numCount < 1) {
+            throw new NullPointerException();
+        }
+
+        double result;
+        if ((numCount & 1) == 0 && numCount > 1) {
+            result = (min.peek() + max.peek()) / 2.0;
+        } else {
+            result = min.peek();
+        }
+        return result;
     }
 
     /**
