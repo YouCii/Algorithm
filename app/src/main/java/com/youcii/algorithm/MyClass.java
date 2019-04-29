@@ -170,6 +170,31 @@ public class MyClass {
         insertNumFromStream(0);
         insertNumFromStream(-1);
         System.out.print("数据流中的中位数: " + getMiddle());
+
+        System.out.println("\n");
+        System.out.print("连续子数组的最大和: " + getMaxOfChildArray(new int[]{1, 2, 3, -2, 5, 6, 7, 8}));
+    }
+
+    /**
+     * 连续子数组的最大和
+     */
+    private static int getMaxOfChildArray(int[] array) {
+        if (array == null || array.length < 1) {
+            throw new NullPointerException();
+        }
+        // int最小值
+        int max = 0x80000000, currentSum = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (currentSum <= 0) {
+                currentSum = array[i];
+            } else {
+                currentSum += array[i];
+            }
+            if (currentSum > max) {
+                max = currentSum;
+            }
+        }
+        return max;
     }
 
     /**
