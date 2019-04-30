@@ -173,6 +173,27 @@ public class MyClass {
 
         System.out.println("\n");
         System.out.print("连续子数组的最大和: " + getMaxOfChildArray(new int[]{1, 2, 3, -2, 5, 6, 7, 8}));
+        System.out.println("\n");
+
+        System.out.print("1~n整数中1出现的次数: " + getNumCountOf1(10000));
+    }
+
+    /**
+     * 1~n整数中1出现的次数
+     */
+    private static int getNumCountOf1(int n) {
+        int count = 0;
+        int k;
+        for (int i = 1; i <= n; i *= 10) {
+            k = n % (10 * i);
+            count += (n / (10 * i)) * i; // 注意, 这里不能简写为n/10
+            if (k > 2 * i - 1) {
+                count += i;
+            } else if (k >= i) {
+                count += k - i + 1;
+            }
+        }
+        return count;
     }
 
     /**
