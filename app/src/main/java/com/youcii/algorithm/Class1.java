@@ -21,7 +21,7 @@ import java.util.Stack;
  * <p>
  * 算法相关
  */
-public class MyClass {
+public class Class1 {
 
     /**
      * 单独打印"\n"是为了防止算法方法在回调String之前在内部打印了日志
@@ -180,13 +180,16 @@ public class MyClass {
 
     /**
      * 1~n整数中1出现的次数
+     * 归纳总结: count(i) = (n / (i * 10)) * i + (if(k > i * 2 - 1) i else if(k < i) 0 else k - i + 1)
      */
     private static int getNumCountOf1(int n) {
         int count = 0;
-        int k;
+        int k; // 在某位的余数
         for (int i = 1; i <= n; i *= 10) {
             k = n % (10 * i);
-            count += (n / (10 * i)) * i; // 注意, 这里不能简写为n/10
+            // 注意, 这里不能简写为n/10,
+            // 防止当前位的低一位的位置上有比1大的数字导致多统计
+            count += (n / (10 * i)) * i;
             if (k > 2 * i - 1) {
                 count += i;
             } else if (k >= i) {
