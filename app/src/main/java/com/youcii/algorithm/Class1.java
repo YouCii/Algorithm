@@ -132,7 +132,7 @@ public class Class1 {
 
         System.out.println("\n");
         int[] target = new int[]{1, 5, 2, 4, 8, 7, 3, 6};
-        mergerSort(target, 0, target.length - 1);
+        mergeSort(target, 0, target.length - 1);
         System.out.println("归并排序: " + Arrays.toString(target));
 
         System.out.println("\n");
@@ -507,13 +507,13 @@ public class Class1 {
     /**
      * 归并排序, 思路是分治法, 递归执行比较简单的合并已排序数组操作即可
      */
-    private static void mergerSort(int[] array, int low, int high) {
+    private static void mergeSort(int[] array, int low, int high) {
         if (array == null || array.length < 2 || low < 0 || high > array.length - 1 || low >= high) {
             return;
         }
-        int middle = (high + low) >>> 1;
-        mergerSort(array, low, middle);
-        mergerSort(array, middle + 1, high);
+        int middle = (high + low) >> 1;
+        mergeSort(array, low, middle);
+        mergeSort(array, middle + 1, high);
 
         mergeSortArrays(array, low, middle, high);
     }
@@ -1205,12 +1205,15 @@ public class Class1 {
      * 反之, 则需要移动首端, 以替换尾端;
      */
     private static int partition(int[] numbers, int low, int high) {
-        if (numbers == null || numbers.length < 1 || low > high) {
+        if (numbers == null) {
             throw new NullPointerException();
+        }
+        if (low < 0 || high < 0 || low >= numbers.length || high >= numbers.length || low > high) {
+            throw new IndexOutOfBoundsException();
         }
 
         // 数组的随机值作为关键值
-        int i = (int) (Math.random() * (high - low)) + low;
+        int i = (int) (Math.random() * (high - low + 1)) + low;
         int temp = numbers[i];
         numbers[i] = numbers[low];
         numbers[low] = temp;
