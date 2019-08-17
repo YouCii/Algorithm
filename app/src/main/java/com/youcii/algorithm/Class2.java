@@ -16,6 +16,10 @@ public class Class2 {
         int[] array2 = new int[]{2, 111, 4, 6, 2, 5, -1};
         quickSort(array2, 0, array2.length - 1);
         System.out.print("\n快速排序: " + Arrays.toString(array2));
+
+        int[] array3 = new int[]{2, 111, 4, 6, 2, 5, -1};
+        mergeSort(array3, 0, array3.length - 1);
+        System.out.print("\n归并排序: " + Arrays.toString(array3));
     }
 
     /**
@@ -165,9 +169,55 @@ public class Class2 {
      * 时间复杂度: 稳定O(n*logn)
      * 空间复杂度: O(n)
      * 思路: 分治法
+     * <p>
+     * 自小至大排序
      */
-    private static String mergeSort() {
-        return "";
+    private static void mergeSort(int[] array, int start, int end) {
+        if (array == null || array.length < 2 || start < 0 || end >= array.length || start >= end) {
+            return;
+        }
+        int middle = (start + end) >> 1;
+        mergeSort(array, start, middle);
+        mergeSort(array, middle + 1, end);
+
+        mergeSortedArray(array, middle, start, end);
+    }
+
+    /**
+     * 合并 start-middle, middle-end 两个已排序数组
+     */
+    private static void mergeSortedArray(int[] array, int middle, int start, int end) {
+        if (array == null || array.length < 2 || start < 0 || end >= array.length || start >= end) {
+            return;
+        }
+        if (middle < start || middle > end) {
+            return;
+        }
+
+        int[] cacheArray = new int[end - start + 1];
+        int startIndex = start, endIndex = middle + 1, cacheIndex = 0;
+
+        // 先把两个排序数组整合到缓存中
+        while (startIndex <= middle && endIndex <= end) {
+            if (array[startIndex] < array[endIndex]) {
+                cacheArray[cacheIndex++] = array[startIndex++];
+            } else {
+                cacheArray[cacheIndex++] = array[endIndex++];
+            }
+        }
+
+        while (startIndex <= middle) {
+            cacheArray[cacheIndex++] = array[startIndex++];
+        }
+        while (endIndex <= end) {
+            cacheArray[cacheIndex++] = array[endIndex++];
+        }
+
+        // 把缓存写回原数组
+        while (cacheIndex > 0) {
+            array[end--] = cacheArray[--cacheIndex];
+        }
+
     }
 
 }
