@@ -3,7 +3,7 @@ package com.youcii.algorithm;
 import java.util.Arrays;
 
 /**
- * 复习较为基础/较为重要的算法
+ * 复习较为基础/重要的算法
  */
 public class Class2 {
 
@@ -20,6 +20,8 @@ public class Class2 {
         int[] array3 = new int[]{2, 111, 4, 6, 2, 5, -1};
         mergeSort(array3, 0, array3.length - 1);
         System.out.print("\n归并排序: " + Arrays.toString(array3));
+
+        System.out.print("\n是否包含重复字符: " + containsDuplicate("q47werx2tyu12io"));
     }
 
     /**
@@ -217,7 +219,32 @@ public class Class2 {
         while (cacheIndex > 0) {
             array[end--] = cacheArray[--cacheIndex];
         }
+    }
 
+    /**
+     * 给定字符串内(A-Z, a-z, 0-9)是否存在重复字符
+     * 亲身经历的面试题
+     */
+    private static boolean containsDuplicate(String string) {
+        if (string == null || string.length() < 2) {
+            return false;
+        }
+        char[] chars = string.toCharArray();
+        // 0-9对应10-39, A-Z对应65-90, a-z对应97-122, 所以申请length为123的数组
+        // 初始化的数组内默认都是0
+        int[] cache = new int[123];
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= cache.length) {
+                throw new RuntimeException("字符串格式错误");
+            }
+
+            if (cache[chars[i]] == 0) {
+                cache[chars[i]]++;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
