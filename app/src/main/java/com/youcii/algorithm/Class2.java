@@ -235,7 +235,7 @@ public class Class2 {
         int[] cache = new int[123];
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] >= cache.length) {
-                throw new RuntimeException("字符串格式错误");
+                throw new IllegalArgumentException("字符串格式错误");
             }
 
             if (cache[chars[i]] == 0) {
