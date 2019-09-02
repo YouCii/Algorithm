@@ -35,8 +35,7 @@ public class Class2 {
      */
     private static int binarySearch(int[] array, int target, int start, int end) {
         if (array == null || array.length < 1 || array[array.length - 1] < array[0]
-                || start < 0 || start >= array.length || end < 0 || end >= array.length
-                || start > end) {
+                || start < 0 || end >= array.length || start > end) {
             return -1;
         }
 
@@ -106,7 +105,7 @@ public class Class2 {
         if (array == null) {
             throw new NullPointerException();
         }
-        if (start < 0 || end < 0 || start >= array.length || end >= array.length || start > end) {
+        if (start < 0 || end >= array.length || start > end) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -230,7 +229,7 @@ public class Class2 {
             return false;
         }
         char[] chars = string.toCharArray();
-        // 0-9对应10-39, A-Z对应65-90, a-z对应97-122, 所以申请length为123的数组
+        // 0-9对应48-57, A-Z对应65-90, a-z对应97-122, 所以申请length为123的数组
         // 初始化的数组内默认都是0
         int[] cache = new int[123];
         for (int i = 0; i < chars.length; i++) {
