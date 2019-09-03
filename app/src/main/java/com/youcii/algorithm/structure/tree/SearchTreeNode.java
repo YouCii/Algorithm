@@ -77,7 +77,7 @@ public class SearchTreeNode<T extends Comparable<T>> extends BinaryTreeNode<T> {
     @Override
     public boolean remove(T t) {
         if (t == null) {
-            throw new NullPointerException("Cannot remove null");
+            throw new IllegalArgumentException("Cannot remove null");
         }
 
         int compare = t.compareTo(val);

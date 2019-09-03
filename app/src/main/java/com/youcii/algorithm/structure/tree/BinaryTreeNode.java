@@ -99,7 +99,7 @@ public class BinaryTreeNode<T extends Comparable<T>> implements TreeNode<T> {
     @Override
     public boolean remove(T t) {
         if (t == null) {
-            throw new NullPointerException("Cannot remove null");
+            throw new IllegalArgumentException("Cannot remove null");
         }
         LinkedList<BinaryTreeNode<T>> queue = new LinkedList<>();
         LinkedList<T> postNodes = new LinkedList<>();

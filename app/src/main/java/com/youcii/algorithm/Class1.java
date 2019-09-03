@@ -83,8 +83,8 @@ public class Class1 {
         System.out.println("\n");
         dataType();
 
-        // System.out.println("\n");
-        // print1ToMaxNumberByFullArrange(3);
+        System.out.println("\n");
+        print1ToMaxNumberByFullArrange(2);
 
         System.out.println("\n");
         LinkedNode root = new LinkedNode(1);
@@ -204,7 +204,7 @@ public class Class1 {
      */
     private static int getMaxOfChildArray(int[] array) {
         if (array == null || array.length < 1) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
         // int最小值
         int max = 0x80000000, currentSum = 0;
@@ -239,6 +239,7 @@ public class Class1 {
             }
         }
     });
+
     private static int numCount = 0;
 
     // 插入最小堆时, 首先把该值插入最大堆, 然后把最大堆里的最大值转移到最小堆
@@ -255,7 +256,7 @@ public class Class1 {
 
     private static double getMiddle() {
         if (numCount < 1) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
 
         double result;
@@ -274,7 +275,7 @@ public class Class1 {
      */
     private static int getMoreThanHalfNum(int[] numbers) {
         if (numbers == null || numbers.length < 1) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
         int start = 0, end = numbers.length - 1, middle = numbers.length >> 1;
         int index = partition(numbers, start, end);
@@ -296,7 +297,7 @@ public class Class1 {
         if (time > middle) {
             return result;
         } else {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
     }
 
@@ -490,7 +491,7 @@ public class Class1 {
      */
     private static boolean isPopArray(int[] pushArray, int[] popArray) {
         if (pushArray == null || popArray == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
         Stack<Integer> cache = new Stack<>();
         int indexPush = 0, indexPop = 0;
@@ -1118,7 +1119,7 @@ public class Class1 {
      */
     private static int findMin2(int[] array) {
         if (array == null || array.length == 0) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
         if (array.length == 1) {
             return array[0];
@@ -1154,8 +1155,8 @@ public class Class1 {
      * 递归方式
      */
     private static int findMin1(int[] array, int low, int height) {
-        if (array == null || array.length == 0 || low < 0 || height >= array.length || low > height) {
-            throw new NullPointerException();
+        if (array == null || low < 0 || height >= array.length || low > height) {
+            throw new IllegalArgumentException("非法参数");
         }
         if (array.length == 1) {
             return array[0];
@@ -1208,7 +1209,7 @@ public class Class1 {
      */
     private static int partition(int[] numbers, int low, int high) {
         if (numbers == null) {
-            throw new NullPointerException();
+            throw new IllegalArgumentException("非法参数");
         }
         if (low < 0 || high < 0 || low >= numbers.length || high >= numbers.length || low > high) {
             throw new IndexOutOfBoundsException();
