@@ -1,5 +1,7 @@
 package com.youcii.algorithm;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
 /**
@@ -13,11 +15,11 @@ public class Class2 {
         System.out.print("\n冒泡排序: " + Arrays.toString(array1));
         System.out.print("\n二分查找: " + binarySearch(array1, 9, 0, array1.length - 1));
 
-        int[] array2 = new int[]{2, 111, 4, 6, 2, 5, -1};
+        int[] array2 = new int[]{2, 11, '0', 1, -2, 5, '-'};
         quickSort(array2, 0, array2.length - 1);
         System.out.print("\n快速排序: " + Arrays.toString(array2));
 
-        int[] array3 = new int[]{2, 111, 4, 6, 2, 5, -1};
+        int[] array3 = new int[]{2, 11, '0', 1, -2, 5, '-'};
         mergeSort(array3, 0, array3.length - 1);
         System.out.print("\n归并排序: " + Arrays.toString(array3));
 
@@ -25,9 +27,8 @@ public class Class2 {
     }
 
     /**
-     * 查找:
+     * 二分查找:
      * <p>
-     * 二分查找
      * 前置条件: 已排序
      *
      * @param array 已完成自小至大排序
@@ -58,9 +59,8 @@ public class Class2 {
     }
 
     /**
-     * 排序:
+     * 最简单的冒泡排序:
      * <p>
-     * 最简单的冒泡排序
      * 时间复杂度: O(n²)
      * 空间复杂度: O(1)
      * <p>
@@ -83,9 +83,8 @@ public class Class2 {
     }
 
     /**
-     * 排序:
+     * 快速排序:
      * <p>
-     * 快速排序
      * 时间复杂度: O(n*logn) -> O(n²)
      * 空间复杂度: O(logn)
      * 思路: 分治法
@@ -96,44 +95,45 @@ public class Class2 {
         if (array == null || array.length < 2 || start >= end) {
             return;
         }
-        int middle = partition(array, start, end);
-        quickSort(array, start, middle - 1);
-        quickSort(array, middle + 1, end);
-    }
-
-    private static int partition(int[] array, int start, int end) {
-        if (array == null) {
-            throw new NullPointerException();
-        }
-        if (start < 0 || end >= array.length || start > end) {
+        if (start < 0 || end >= array.length) {
             throw new IndexOutOfBoundsException();
         }
 
-        int middle = getMiddleInThree(array, start, (start + end) / 2, end);
-        int keyValue = array[middle];
-        array[middle] = array[start];
-        array[start] = keyValue;
+        int divider = partition(array, start, end);
+        quickSort(array, start, divider - 1);
+        quickSort(array, divider + 1, end);
+    }
 
-        while (start < end) {
-            while (end > start && array[end] >= keyValue) {
-                end--;
-            }
-            if (start == end) {
-                return start;
-            }
-            array[start] = array[end];
-            array[end] = keyValue;
-
-            while (start < end && array[start] <= keyValue) {
-                start++;
-            }
-            if (start == end) {
-                return start;
-            }
-            array[end] = array[start];
-            array[start] = keyValue;
+    private static int partition(int[] array, int start, int end) {
+        // 这里不进行array判空了, 直接抛出异常, 更有利于排查问题
+        if (start > end || start < 0 || end >= array.length) {
+            throw new IndexOutOfBoundsException();
         }
-        return start;
+        // 不直接选择头尾位置, 以防出现对基本排序的数组划分次数接近于n
+        int dividerIndex = getMiddleInThree(array, start, end, (start + end) >> 1);
+        int divider = array[dividerIndex];
+        array[dividerIndex] = array[start];
+        array[start] = divider;
+
+        int startIndex = start, endIndex = end;
+        while (startIndex < endIndex) {
+            while (startIndex < endIndex) {
+                if (array[endIndex] < divider) {
+                    array[startIndex] = array[endIndex];
+                    break;
+                }
+                endIndex--;
+            }
+            while (startIndex < endIndex) {
+                if (array[startIndex] > divider) {
+                    array[endIndex] = array[startIndex];
+                    break;
+                }
+                startIndex++;
+            }
+        }
+        array[startIndex] = divider;
+        return startIndex;
     }
 
     private static int getMiddleInThree(int[] array, int num0, int num1, int num2) {
@@ -164,9 +164,8 @@ public class Class2 {
 
 
     /**
-     * 排序:
+     * 归并排序:
      * <p>
-     * 归并排序
      * 时间复杂度: 稳定O(n*logn)
      * 空间复杂度: O(n)
      * 思路: 分治法
@@ -185,38 +184,25 @@ public class Class2 {
     }
 
     /**
-     * 合并 start-middle, middle-end 两个已排序数组
+     * 合并 start-middle, middle+1-end 两个已排序数组
      */
-    private static void mergeSortedArray(int[] array, int middle, int start, int end) {
-        if (array == null || array.length < 2 || start < 0 || end >= array.length || start >= end) {
-            return;
+    private static void mergeSortedArray(@NotNull int[] array, int middle, int start, int end) {
+        if (start < 0 || end >= array.length || middle < start || middle > end) {
+            throw new IndexOutOfBoundsException();
         }
-        if (middle < start || middle > end) {
-            return;
-        }
-
         int[] cacheArray = new int[end - start + 1];
         int startIndex = start, endIndex = middle + 1, cacheIndex = 0;
-
-        // 先把两个排序数组整合到缓存中
         while (startIndex <= middle && endIndex <= end) {
-            if (array[startIndex] < array[endIndex]) {
-                cacheArray[cacheIndex++] = array[startIndex++];
-            } else {
-                cacheArray[cacheIndex++] = array[endIndex++];
-            }
+            cacheArray[cacheIndex++] = array[startIndex] < array[endIndex] ? array[startIndex++] : array[endIndex++];
         }
-
         while (startIndex <= middle) {
             cacheArray[cacheIndex++] = array[startIndex++];
         }
         while (endIndex <= end) {
             cacheArray[cacheIndex++] = array[endIndex++];
         }
-
-        // 把缓存写回原数组
         while (cacheIndex > 0) {
-            array[end--] = cacheArray[--cacheIndex];
+            array[--endIndex] = cacheArray[--cacheIndex];
         }
     }
 
