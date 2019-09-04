@@ -13,7 +13,7 @@ public class Class2 {
         int[] array1 = new int[]{2, 5, 2, 4, 111, 6, -1};
         bubbleSort(array1);
         System.out.print("\n冒泡排序: " + Arrays.toString(array1));
-        System.out.print("\n二分查找: " + binarySearch(array1, 9, 0, array1.length - 1));
+        System.out.print("\n二分查找: " + binarySearch(array1, 3));
 
         int[] array2 = new int[]{2, 11, '0', 1, -2, 5, '-'};
         quickSort(array2, 0, array2.length - 1);
@@ -34,28 +34,27 @@ public class Class2 {
      * @param array 已完成自小至大排序
      * @return 目标position
      */
-    private static int binarySearch(int[] array, int target, int start, int end) {
-        if (array == null || array.length < 1 || array[array.length - 1] < array[0]
-                || start < 0 || end >= array.length || start > end) {
+    private static int binarySearch(int[] array, int target) {
+        if (array == null || array.length < 1) {
+            return -1;
+        }
+        int start = 0, end = array.length - 1;
+        if (array[start] > target || array[end] < target) {
             return -1;
         }
 
-        if (start == end) {
-            if (array[start] == target) {
-                return start;
+        int middle;
+        while (start <= end) {
+            middle = (start + end) >> 1;
+            if (array[middle] > target) {
+                end = middle - 1;
+            } else if (array[middle] < target) {
+                start = middle + 1;
             } else {
-                return -1;
+                return middle;
             }
         }
-
-        int middle = (end + start) >> 1;
-        if (array[middle] > target) {
-            return binarySearch(array, target, start, middle - 1);
-        } else if (array[middle] < target) {
-            return binarySearch(array, target, middle + 1, end);
-        } else {
-            return middle;
-        }
+        return -1;
     }
 
     /**

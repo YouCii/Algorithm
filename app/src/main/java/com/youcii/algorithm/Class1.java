@@ -1441,12 +1441,16 @@ public class Class1 {
      * 在此过程中, 记录end每次位移后的窗口长度中的最大值, 循环完成时, 此值就是无重复字符的最长子串的长度
      */
     private static int lengthOfLongestSubstring(String string) {
-        int maxLength = 0, length = string.length();
-        Map<Character, Integer> map = new HashMap<>(length);
+        if (string == null){
+            throw new IllegalArgumentException();
+        }
+        char[] chars = string.toCharArray();
+        int maxLength = 0, length = chars.length;
+        HashMap<Character, Integer> map = new HashMap<>(length);
         for (int begin = 0, end = 0; end < length; end++) {
-            char endChar = string.charAt(end);
+            char endChar = chars[end];
             if (map.containsKey(endChar)) {
-                // begin = map.get(endChar) + 1; // 这种方式有可能会导致begin回移
+                // begin = map.get(endChar) + 1; // 这种方式有可能会导致begin回移, 因为可能存在, 但是已经在窗口之前了, 不能再回移
                 begin = Math.max(begin, map.get(endChar) + 1); // 把尾部移到重复字符前者的后一位, 从这里继续
             }
             // 每次都要计算, 而不是在!map.containsKey(endChar)时才执行,
