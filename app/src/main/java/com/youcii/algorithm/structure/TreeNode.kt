@@ -1,4 +1,4 @@
-package com.youcii.algorithm.structure.tree
+package com.youcii.algorithm.structure
 
 /**
  * Created by jdw on 2019/2/21.

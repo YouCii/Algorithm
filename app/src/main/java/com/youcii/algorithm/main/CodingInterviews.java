@@ -1,9 +1,9 @@
-package com.youcii.algorithm;
+package com.youcii.algorithm.main;
 
 import com.youcii.algorithm.structure.LinkedNode;
-import com.youcii.algorithm.structure.tree.BinaryTreeNode;
-import com.youcii.algorithm.structure.tree.SearchTreeNode;
-import com.youcii.algorithm.structure.tree.TreeNode;
+import com.youcii.algorithm.structure.BinaryTreeNode;
+import com.youcii.algorithm.structure.SearchTreeNode;
+import com.youcii.algorithm.structure.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,16 +12,14 @@ import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
 /**
  * Created by jdw on 2018/12/20.
- * <p>
- * 算法相关
+ * 剑指Offer题目
  */
-public class Class1 {
+public class CodingInterviews {
 
     /**
      * 单独打印"\n"是为了防止算法方法在回调String之前在内部打印了日志
@@ -1441,7 +1439,7 @@ public class Class1 {
      * 在此过程中, 记录end每次位移后的窗口长度中的最大值, 循环完成时, 此值就是无重复字符的最长子串的长度
      */
     private static int lengthOfLongestSubstring(String string) {
-        if (string == null){
+        if (string == null) {
             throw new IllegalArgumentException();
         }
         char[] chars = string.toCharArray();

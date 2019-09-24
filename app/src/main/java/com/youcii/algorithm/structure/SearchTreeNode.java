@@ -1,4 +1,4 @@
-package com.youcii.algorithm.structure.tree;
+package com.youcii.algorithm.structure;
 
 import java.util.ArrayList;
 import java.util.List;
